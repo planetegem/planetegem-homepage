@@ -1,0 +1,105 @@
+/* Highlights menu */
+
+.highlights-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+
+    & li {
+        width: 90%;
+    }
+
+    & li:hover {
+        cursor: pointer;
+
+        & .highlight {
+            outline: 1px solid var(--primary-color);
+            background-color: var(--background-primary-color);
+
+            & header {
+                color: black;
+
+                & p {
+                    text-decoration: underline;
+                }
+            }
+            & svg {
+                fill: black;
+            }
+        }
+    }
+}
+
+div.menu-divider {
+    width: 60%;
+    border-bottom: inset 1px var(--lightgrey-color);
+    margin: 1.5em auto 1em;
+    position: relative;
+
+    & h3 {
+        font-size: 0.9em;
+        color: var(--lightgrey-color);
+        position: absolute;
+        top: -0.65em;
+        left: 0;
+        right: 0;
+        margin: auto;
+        background: white;
+        width: fit-content;
+        padding: 0 0.5em;
+    }
+}
+
+.highlight {
+    display: block;
+    padding: 0.75em 1em;
+    border-radius: 0.25em;
+
+    &>header {
+        float: left;
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        font-size: 1.25em;
+        color: var(--darker-primary-color);
+        font-weight: 600;
+        font-variant: small-caps;
+        line-height: 0.66em;
+        padding-right: 0.6em;
+
+        &>svg {
+            width: 0.4em;
+            line-height: 0.66em;
+            height: min-content;
+            fill: var(--darker-primary-color);
+        }
+    }
+
+    &>main {
+        text-align: justify;
+    }
+}
+
+.menu-social-links {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5em;
+    position: relative;
+
+    & li {
+        top: var(--base-padding);
+        padding: 0.3em;
+        border-radius: 50%;
+    }
+
+    & li:hover {
+        cursor: pointer;
+    }
+
+    & svg {
+        width: 1.75em;
+        height: 1.75em;
+        fill: var(--darker-primary-color);
+    }
+}

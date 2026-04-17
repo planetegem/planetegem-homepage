@@ -1,0 +1,255 @@
+/* Fixed header, closes when scrolling down */
+.page-header-container {
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+
+    border-bottom: solid 2px var(--primary-color);
+    box-shadow: 0 4px 4px var(--lightgrey-color);
+
+    transition: transform 0.5s;
+
+    & .wrapper {
+        position: relative;
+        border-bottom: solid 1px var(--primary-color);
+        background-color: white;
+    }
+}
+
+.page-header-container.closed {
+    transform: translateY(var(--menu-translation));
+}
+
+/* Body of the header: contains central logo & 2 buttons */
+.page-header {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr auto 1fr;
+    direction: ltr;
+    align-items: center;
+
+    margin: auto;
+    padding: var(--base-padding);
+    max-width: var(--main-max-width);
+    z-index: 20;
+    box-sizing: border-box;
+
+    & .header-button-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 2em;
+    }
+
+    & button.menu-button {
+        display: flex;
+        height: fit-content;
+        width: fit-content;
+
+        & svg {
+            width: 2.2em;
+            height: 2.2em;
+            fill: var(--darker-primary-color);
+        }
+    }
+
+    & button.menu-button:hover {
+        cursor: pointer;
+
+        & svg {
+            fill: black;
+        }
+    }
+
+    & a.github-link {
+        color: var(--darker-primary-color);
+        font-weight: 600;
+        font-variant: small-caps;
+        user-select: none;
+    }
+
+    & a.github-link:hover {
+        cursor: pointer;
+        color: black;
+        text-decoration: underline;
+    }
+}
+
+/* Logo */
+a.main-logo {
+    font-size: var(--logo-size);
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 1em;
+    width: 3.3em;
+    user-select: none;
+
+    & img {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        z-index: 0;
+        opacity: 0.82;
+    }
+
+    & h1 {
+        font-family: 'Orbitron';
+        position: absolute;
+        font-size: 0.25em;
+        z-index: 5;
+        -webkit-text-stroke: 1px white;
+        font-weight: 900;
+        text-align: left;
+        left: 3.2em;
+        top: 1em;
+        line-height: 0.95em;
+        color: var(--darkgrey-color);
+        letter-spacing: 4px;
+
+        & small {
+            font-size: 0.7em;
+            position: absolute;
+            left: -2.75em;
+            bottom: -1.75em;
+        }
+    }
+}
+
+a.main-logo:hover {
+    cursor: pointer;
+
+    & img {
+        opacity: 1;
+    }
+
+    & h1 {
+        color: black;
+    }
+}
+
+/* Dropdown navigation menu's: highlights (left) and filters (right) */
+/* In a container to fix positioning */
+aside.menu-container {
+    z-index: -1;
+    max-width: var(--main-max-width);
+    margin: auto;
+    position: relative;
+    grid-column: 1 / span 3;
+}
+
+/* Actual menu: when opened, translates into view */
+nav.menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: white;
+    position: absolute;
+    border-bottom: solid 3px var(--primary-color);
+    bottom: 0;
+    padding: var(--base-padding);
+    width: 100%;
+    z-index: 0;
+
+    transform: translateY(-3px);
+    transition: transform 0.2s ease-in-out;
+    box-sizing: border-box;
+
+    & h2.menu-header {
+        font-size: 1.2em;
+        line-height: 1.5rem;
+        padding: 0.3rem;
+        margin-bottom: 1em;
+    }
+
+    & p.menu-subheader {
+        width: 80%;
+        text-align: center;
+        margin: 0 0 1.5em;
+    }
+}
+
+nav.menu.opened {
+    transform: translateY(100%);
+}
+
+nav.menu.left {
+    & button.exit-button {
+        right: var(--base-padding);
+    }
+}
+
+nav.menu.right {
+    & button.exit-button {
+        left: var(--base-padding);
+    }
+}
+
+nav.menu::selection {
+    color: white;
+    background-color: var(--primary-color);
+}
+
+@media only screen and (min-width: 768px) {
+    nav.menu {
+        width: 55%;
+        border-left: solid 3px var(--primary-color);
+        border-right: solid 3px var(--primary-color);
+    }
+
+    nav.menu.left {
+        left: calc(var(--base-padding) * -0.5);
+        box-shadow: -2px 4px 4px var(--lightgrey-color), 0 2px 2px var(--lightgrey-color) inset;
+    }
+
+    nav.menu.right {
+        right: calc(var(--base-padding) * -0.5);
+        box-shadow: 2px 4px 4px var(--lightgrey-color), 0 2px 2px var(--lightgrey-color) inset;
+    }
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    left: 0; right: 0; top: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.25;
+    background-color: var(--primary-color);
+    z-index: 0;
+}
+.overlay.visible {
+    display: block;
+}
+
+/* Exit button, used in navigation */
+button.exit-button {
+    display: flex;
+    height: fit-content;
+    width: fit-content;
+    position: absolute;
+    top: var(--base-padding);
+    padding: 0.3em;
+    border-radius: 50%;
+
+    & svg {
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: var(--darker-primary-color);
+    }
+}
+
+button.exit-button:hover {
+    cursor: pointer;
+    background-color: var(--background-primary-color);
+
+    & svg {
+        fill: black;
+    }
+}
+
+

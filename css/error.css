@@ -1,0 +1,58 @@
+body.static {
+    height: 100vh;
+    position: relative;
+}
+
+main.error {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    height: fit-content;
+    max-width: min(60vh, 90vw);
+    margin: auto;
+    box-sizing: border-box;
+    background-color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    text-align: center;
+
+    border: solid var(--item-border-width) var(--primary-color);
+    padding: var(--item-padding) calc(var(--item-padding) * 1.5);
+    gap: 1rem;
+
+
+    &>a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1em;
+        gap: 0.4em;
+        font-size: 1.05em;
+        font-variant: small-caps;
+        color: var(--darker-primary-color);
+        font-weight: 600;
+
+        & svg {
+            height: 1.2em;
+            fill: currentColor;
+        }
+    }
+
+    &>a:hover {
+        cursor: pointer;
+        color: black;
+
+        & span {
+            text-decoration: underline;
+        }
+    }
+}
+main.error::selection {
+    color: white;
+    background-color: var(--primary-color);
+}

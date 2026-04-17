@@ -1,0 +1,155 @@
+/* Filter menu (is actually a form) */
+#filter-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+/* Filter menu container */
+.form-option-container {
+    border: solid 1px var(--lightgrey-color);
+    border-radius: 1em;
+    padding: 1.5em;
+    width: 95%;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 0.5em 1.25em;
+
+    & h3 {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: -0.6em;
+        padding: 0 0.5em;
+        margin: auto;
+        background-color: white;
+        width: fit-content;
+    }
+}
+
+/* Custom checkbox */
+.checkbox {
+    display: grid;
+    grid-template-columns: 1em auto;
+    gap: 0.15em;
+    align-items: center;
+
+    & input[type="checkbox"] {
+        -webkit-appearance: none;
+        appearance: none;
+        margin: 0;
+        color: currentColor;
+        width: 1em;
+        height: 1em;
+        border: 0.15em solid currentColor;
+        border-radius: 0;
+        display: grid;
+        place-content: center;
+        opacity: 0.75;
+    }
+
+    & input[type="checkbox"]:hover {
+        cursor: pointer;
+    }
+
+    & input[type="checkbox"]::before {
+        content: "";
+        width: 0.5em;
+        height: 0.5em;
+        transform: scale(0);
+        transition: 80ms transform ease-in-out;
+        box-shadow: inset 1em 1em currentColor;
+    }
+
+    & input[type="checkbox"]:checked::before {
+        transform: scale(1);
+    }
+}
+
+.checkbox:hover {
+    cursor: pointer;
+}
+
+/* Container for order selector */
+.form-dropdown-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5em;
+}
+
+/* Custom select element */
+.custom-select {
+    position: relative;
+}
+
+.custom-select select {
+    appearance: none;
+    -webkit-appearance: none;
+    font-size: 1em;
+    border-radius: 0.5em;
+    padding: 0.25em 0.5em;
+    padding-right: 2.5em;
+    background-color: #FFFFFF;
+    border: 1px solid var(--lightgrey-color);
+    cursor: pointer;
+    outline: none;
+}
+
+.custom-select::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    top: 50%;
+    right: 10px;
+    transform: translate(0, -50%);
+    width: 12px;
+    height: 12px;
+    background-color: #000000;
+    clip-path: polygon(50% 80%, 0 20%, 100% 20%);
+}
+
+/* form submission container */
+.form-submission-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    margin: 1.35em 0;
+}
+
+/* Submit button */
+button.submit-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 1.3em;
+    color: var(--darker-primary-color);
+    font-weight: 600;
+    font-variant: small-caps;
+
+    &>svg {
+        width: 0.4em;
+        height: min-content;
+        fill: var(--darker-primary-color);
+    }
+}
+
+button.submit-button:hover {
+    cursor: pointer;
+    text-decoration: underline;
+    color: black;
+
+    &>svg {
+        fill: black;
+    }
+}
+
+span.filter-summary {
+    text-align: center;
+    color: var(--darkgrey-color);
+}

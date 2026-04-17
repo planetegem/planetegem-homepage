@@ -1,0 +1,1 @@
+<a href="<?= $props['url'] ?>" class="simple-link">[<?= $props['label'] ?>]</a>
