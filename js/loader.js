@@ -4,7 +4,7 @@ let interactionBlocked = true,
     animationFinished = false;
 
 // Elements
-const background = new Background(false);
+const background = new Background("fake-3D-background", false);
 background.fillColor = "white";
 background.strokeWidth = 2;
 background.strokeColor = "#05954886";
