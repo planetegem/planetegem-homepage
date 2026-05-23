@@ -6,8 +6,7 @@
         <?= file_get_contents('resources/icons/eye_icon.svg') ?>
     </span>
 
-    <script src="/js/background/fake-3d-grid.js"></script>
-    <script src="/js/background/background.js"></script>
+    <script src="/js/background/fake-3D-background-minified.js"></script>
     <script src="/js/loader.js"></script>
-    <script src="/js/terrain-viewer.js"></script>
+    <script src="/js/terrain-viewer.js" defer></script>
 </figure>

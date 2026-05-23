@@ -47,6 +47,7 @@ Contains all css-files. <ins>TO DO</ins>: might add option to minify, and to iso
 
 ### Js
 Contains js-files. <ins>TO DO</ins>: see css.
+Largest part of the js is in the loader and the background being generated. See [this github repository](https://github.com/planetegem/PlanetGen).
 
 ### Resources
 Contains all resources, such as images, icons, and fonts.
