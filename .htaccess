@@ -1,17 +1,9 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Serve real files and directories directly
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
+    # If the request is already for the public folder, don't change it
+    RewriteCond %{REQUEST_URI} !^/public/
 
-    # Try to match path inside content folder
-    RewriteCond %{DOCUMENT_ROOT}/content/%{REQUEST_URI} -f [OR]
-    RewriteCond %{DOCUMENT_ROOT}/content/%{REQUEST_URI} -d
-    RewriteRule ^(.*)$ content/$1 [L]
-
-    # Send everything else to index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php [L]
+    # Rewrite everything else to the public folder
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

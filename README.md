@@ -1,17 +1,45 @@
 # Introduction
-This is the newest version of planetegem.be, running SysInvAdmin in the background as rudimentary CMS. I'm also laying some groundwork here to make a robust template for websites running SysInvAdmin, taking a lot of inspiration from Laravel and Blade.
+This is the newest version of planetegem.be, running SysInvAdmin in the background as rudimentary CMS. I'm laying some groundwork here to make a template for websites running SysInvAdmin, taking a lot of inspiration from Laravel and Blade.
+This will also be the basis for other websites.
 
-# Project Structure
-## Php
-PHP is used for the main logic of the application, such as API fetching and HTML rendering. 
+# Template structure & features
+The /public directory is treated as your root folder as far as any visitor is concerned. It contains all css, js, resources and custom pages.
 
-### Core
-These are the PHP scripts called in index.php, the heart of the application. Ideally, you should not have to touch these to create new pages or components. There are currently 3 core scripts:
-1) Logger: provides logic to do error logging. Called first in index.php.
-2) Loader: goes through the php folder and includes every php file encountered once, with the exeption of files in the core subfolder (which are included manually in index.php) and files ending in .view.php (which are only included when Render is called on the view class)
-3) Router: handles routing to dynamic pages
+## Core Components
+The index.php in the public folder points to bootstrap.php, which initializes all of the core components. These are:
+- The App  functions as a service manager. You register other components, which can then be accessed as a static service.
+- The Environment load the .env file and parses it. When bootstrapping, it is registered as a service with the App.
+- The Logger handles error logging. If debug is enabled in the .env file (DEBUG_LOCAL=true), PHP actions are logged either as a .txt (if LOG_FUNCTION=TXT_LOG) or as a JS console.log (if LOG_FUNCTION=JS_DUMP). A shortcut is set to the main method (__message()).
+- The Localizer enables using localization files in a very similar way as in Laravel. The localization files are placed in /localization/{locale_name}. The class provides logic to fetch and cache these files, and replace variables within the localization strings.
+    <ins>TO DO</ins>: add support for pluralization.
+- The API Client handles calls to API's. It provides a fetch method to execute a simple GET, as well as a caching mechanism where API responses are saved in .cache. The cache has an expiration term that can be customized, but if the API is updated, it's recommended that you remove the .cache folder to force a refresh. 
+- The API Client is extended into a specialized SysInvAdminClient class, specifically directed at integrating with the SysInvAdmin API. 
+- The Loader class offers some utility functions to include php files in large quantities.
 
-### Views
+## Routing
+The Router class is responsible for directing requests to specific routes. It does this this by:
+1) fetching a list of all classes that extend the Route class
+2) creating an array of Route instances
+3) dispatching to the correct route based on uri & method
+
+You add new routes by creating an extension of the Route class. 
+Add a public string property called $path to indicate the path leading to the route. You can also add a public string property $method to include a method. If you don't, it defaults to 'GET'. Finally, implement the go() method to define what a specific route needs to do. Typically, this will be an API call or a view being instantiated.
+
+``` php
+class HomeRoute extends Route
+{
+    public string $path = '/';
+    public string $method = 'GET';
+
+
+    public function go(array $params): void
+    {
+        echo new Page()->Render();
+    }
+}
+```
+
+## Views
 Views contains all PHP files that generate functional HTML. Here, you create view components that consist of 2 files:
 1) a class file that handles most (or ideally all) logic (for example item.php which contains the class Item). The class needs to extend the View class.
 2) a view file that contains the HTML to be rendered, with the same name as the item class, but ending in view.php (for example item.view.php)
@@ -35,32 +63,5 @@ To get a clean file structure in VS, I recommend adding the follwing block to yo
 ```
 This way, the view.php files will be nested under there corresponding class files, giving a similar presentation as for XAML files when working with the WPF framework in Visual Studio.
 
-### Routes
-<ins>TO DO</ins>: get Route class here, which can be extended. The router uses class reflection to find all extensions of the Route class and determine what to do with them. Cleaner than doing everything in the router.
-
-### Helpers
-Contains handy helper functions, that are loaded by the loader and consequentially readily available.
-
-## Other folders
-### Css
-Contains all css-files. <ins>TO DO</ins>: might add option to minify, and to isolate code by component.
-
-### Js
-Contains js-files. <ins>TO DO</ins>: see css.
-Largest part of the js is in the loader and the background being generated. See [this github repository](https://github.com/planetegem/PlanetGen).
-
-### Resources
-Contains all resources, such as images, icons, and fonts.
-
-### Content
-This is where custom pages live: pages that were not generated dynamically with the CMS and which have a fixed path. When linking to these pages, you don't have to include the '/content' part: the .htaccess file includes a rule to take care of this.
-
-For clarity, the rerouting logic imposed by .htaccess:
-1) if path exists, simply return path
-2) if it doesn't, try same path but preceded by '/content' (so '/example/test' actually points to '/content/example/test')
-3) if that path doesn't exist, redirect to index.php
-4) index.php includes the router, which dynamically generates an appropriate page based on the url
-
-<ins>TO DO</ins>: there is currently a bug where folders that don't have a trailing slash reveal the content folder in the path. To be fixed.
-
-
+## Helpers
+Helper functions used in sites using SysInvAdmin.
