@@ -5,8 +5,8 @@
         <h3><?= __('main.filters.languages.title') ?></h3>
         <?php
         foreach ($props['languages'] as $language) {
-            $checked = in_array($language->short, $props['selected_languages']);
-            echo "<li>" . (new Views\Checkbox($language->short, 'language', $language->name, $checked))->Render() . "</li>";
+            $checked = in_array($language->short_name, $props['selected_languages']);
+            echo "<li>" . (new Views\Checkbox($language->short_name, 'language', $language->name, $checked))->Render() . "</li>";
         }
         ?>
     </ul>

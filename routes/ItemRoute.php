@@ -21,7 +21,7 @@ class ItemRoute extends Route
 
         // get selected items
         $api_response = __api()->fetch('items/slug/' . $selected_item, APP::service('ENV')->CACHE_LONG);
-        $item = $api_response['response_code'] == 200 ? $api_response['response_body'] : [];
+        $item = $api_response['response_code'] == 200 ? $api_response['response_body']->data : [];
 
         // select page
         $page = $api_response['response_code'] == 404 ? new Error404Page() : new ItemPage($item);

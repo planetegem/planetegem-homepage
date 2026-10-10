@@ -11,6 +11,7 @@
             echo $item->Render();
         }, $props['items']);
         ?>
+        <?= $props['pager']->Render() ?>
     </main>
     <?= (new Views\Footer())->Render() ?>
 </body>

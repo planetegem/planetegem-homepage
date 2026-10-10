@@ -25,7 +25,7 @@ class HomeRoute extends Route
         // select page
         if ($api_response['response_code'] != 200) {
             $page = new Error404Page();
-        } else if ($api_response['response_body']->count == '0') {
+        } else if ($inventory->count == '0' || $inventory->current_page > $inventory->last_page) {
             $page = new NoResultsPage();
         } else {
             $page = new HomePage($inventory);

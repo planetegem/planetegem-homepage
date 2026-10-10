@@ -1,0 +1,64 @@
+img.thumbnail {
+    width: 100%;
+    cursor: zoom-in;
+}
+
+img.removed {
+    display: none !important;
+}
+
+dialog.enlarged-dialog {
+    max-width: 90vw;
+    max-height: 90vh;
+    padding: 3.5em;
+    border: 0.25em var(--primary-color) solid;
+    box-sizing: border-box;
+    border-radius: 0.5em;
+
+    & figure {
+        margin: 0;
+        display: table;
+        width: fit-content;
+        border-radius: 0.5em;
+    }
+
+    & img {
+        max-width: calc(90vw - 7.5em);
+        max-height: calc(90vh - 7.5em);
+        width: auto;
+        height: auto;
+        display: block;
+    }
+
+    & form {
+        position: absolute;
+        top: 0.75em;
+        right: 0.75em;
+    }
+
+    & button {
+        all: unset;
+        cursor: pointer;
+        padding: 0.5em;
+        border-radius: 0.75em;
+        width: 1em;
+        height: 1em;
+        text-align: center;
+    }
+
+    & button:hover {
+        font-weight: bold;
+        background-color: rgba(241, 241, 241, 0.662);
+    }
+
+    &::backdrop {
+        background: var(--primary-color);
+        opacity: 0.5;
+    }
+}
+
+dialog.enlarged-dialog[open] {
+    display: block;
+    width: fit-content;
+    height: fit-content;
+}

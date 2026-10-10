@@ -18,8 +18,8 @@ class FilterMenu extends View
 
         $filters = __api()->fetchFilters();
 
-        $this->languages = $filters['languages'];
-        $this->categories = $filters['categories'];
+        $this->languages = $filters['languages']->data;
+        $this->categories = $filters['categories']->data;
 
         $parsed_query = parse_query_string($_SERVER['QUERY_STRING'] ?? "");
 

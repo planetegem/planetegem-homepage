@@ -1,4 +1,4 @@
-class Point {
+export class Point {
     _x;
     _y;
     _z;
@@ -18,7 +18,7 @@ class Point {
     }
 }
 
-class Grid {
+export class Grid {
 
     // BASE PROPS
     grid;
@@ -128,7 +128,7 @@ class Grid {
     }
 }
 
-class Projection extends Grid {
+export class Projection extends Grid {
     // PROJECTION
     // Offsets grid to make 3D projection effect
     _projection;
@@ -246,7 +246,7 @@ class Projection extends Grid {
     }
 }
 
-class Background extends Projection {
+export class Background extends Projection {
     // Main props
     _canvas;
     _grid;

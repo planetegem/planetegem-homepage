@@ -7,7 +7,6 @@ function medium_factory($medium)
             case 'image':
             case 'thumbnail':
                 return new Views\Thumbnail($medium);
-                break;
             default:
                 return null;
         }

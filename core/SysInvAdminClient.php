@@ -28,6 +28,12 @@ class SysInvAdminClient extends ApiClient
         if (isset($parsed_query['order'])) {
             $params[] = "order={$parsed_query['order'][0]}";
         }
+        
+        $per_page = isset($parsed_query['per_page']) ? $parsed_query['per_page'][0] : 20;
+        $params[] = "per_page={$per_page}";
+        $current_page = isset($parsed_query['page']) ? $parsed_query['page'][0] : 1;
+        $params[] = "page={$current_page}";
+
         $assembled_query_string = $params ? '?' . implode('&', $params) : '';
 
         // Perform fetch with SysInvAdmin friendly query string

@@ -13,7 +13,7 @@
                 <?= $props['description'] ?>
                 <?= $props['relationship'] ? $props['relationship']->Render() : '' ?>
             </section>
-            <figure class="item-figure">
+            <figure class="item-figure <?= $props['medium'] ? '' : 'empty' ?>">
                 <?= $props['medium'] ? $props['medium']->Render() : '' ?>
             </figure>
             <nav class="item-links">

@@ -36,11 +36,13 @@
     <link rel="stylesheet" href="/css/highlight-menu.css">
     <link rel="stylesheet" href="/css/error.css">
     <link rel="stylesheet" href="/css/background.css">
+    <link rel="stylesheet" href="/css/pager.css">
     <link rel="stylesheet" href="/css/main.css">
 
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <script src="/js/base.js" defer></script>
     <script src="/js/filter-preview.js" defer></script>
+    <script src="/js/main.js" type="module"></script>
+
 
 </head>

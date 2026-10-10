@@ -1,0 +1,24 @@
+nav.pager {
+    border: solid var(--primary-color) var(--item-border-width);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25em;
+    z-index: 50;
+    padding: 0.5em;
+
+    & a.pager-link:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
+    & span.active {
+        text-decoration: underline;
+        cursor: default;
+    }
+}
+nav.pager::selection {
+    color: white;
+    background-color: var(--primary-color);
+}
