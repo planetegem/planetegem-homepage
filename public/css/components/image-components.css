@@ -55,10 +55,83 @@ dialog.enlarged-dialog {
         background: var(--primary-color);
         opacity: 0.5;
     }
+
+    & img.placeholder {
+        width: 100%;
+    }
 }
 
 dialog.enlarged-dialog[open] {
     display: block;
     width: fit-content;
     height: fit-content;
+}
+
+figure {
+    margin: 0;
+}
+
+figure.gallery {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 1em;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5em;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+nav.gallery-nav {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1em;
+    overflow: hidden;
+    width: fit-content;
+    max-width: 100%;
+    scroll-behavior: smooth;
+
+    & a {
+        height: 4.5em;
+        flex-shrink: 0;
+        box-sizing: border-box;
+        padding: 4px;
+        margin: 2px;
+    }
+    & img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+    }
+
+    & a:hover,
+    & a.selected {
+        cursor: pointer;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+}
+
+.nav-button {
+    background: none;
+    border: none;
+    width: 1em;
+    height: 1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    font-size: 1.5em;
+
+    &:hover {
+        color: var(--primary-color);
+    }
 }

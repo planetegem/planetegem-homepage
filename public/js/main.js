@@ -5,10 +5,14 @@ import ItemManager from "./components/item-manager.js";
 import Loader from "./components/loader.js";
 import TerrainAnimator from "./components/terrain-animator.js";
 import UiManager from "./components/ui-manager.js";
+import ExpandableGallery from "./components/expandable-gallery.js.js";
 
 // Register web component
 if (!customElements.get('expandable-thumbnail')) {
     customElements.define('expandable-thumbnail', ExpandableThumbnail);
+}
+if (!customElements.get('expandable-gallery')) {
+    customElements.define('expandable-gallery', ExpandableGallery);
 }
 
 const fpsCounter = new FpsCounter("fps-counter");

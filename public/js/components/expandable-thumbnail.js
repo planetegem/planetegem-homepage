@@ -6,9 +6,6 @@ import styles from "../../css/components/image-components.css" with {type: "css"
 // and a placeholder to show while loading the large image (defaults to the thumbnail)
 export default class ExpandableThumbnail extends HTMLElement {
 
-    static get observedAttributes() {
-        return ["large-image", "placeholder"];
-    }
     constructor() {
         super();
 
@@ -19,72 +16,70 @@ export default class ExpandableThumbnail extends HTMLElement {
         shadow.adoptedStyleSheets = [styles];
     }
 
-    get largeImage() {
-        return this.getAttribute("large-image");
-    }
-    set largeImage(value) {
-        if (value) {
-            this.setAttribute("large-image", value);
-        } else {
-            this.removeAttribute("large-image");
-        }
-    }
-
-    get placeholder() {
-        return this.getAttribute("placeholder");
-    }
-    set placeholder(value) {
-        if (value) {
-            this.setAttribute("placeholder", value);
-        } else {
-            this.removeAttribute("placeholder");
-        }
-    }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (name == "large-image" && oldValue !== newValue) {
-            this.loadLargeImage();
-        }
-        if (name == "placeholder" && oldValue !== newValue) {
-            this.loadLargeImage();
-        }
-    }
-
-    
     connectedCallback() {
         this.img = this.shadowRoot.querySelector("img.thumbnail");
         if (this.img) this.img.addEventListener("click", (e) => this.expandImage());
     }
+
     disconnectedCallback() {
         this.img = this.shadowRoot.querySelector("img.thumbnail");
         if (this.img) this.img.removeEventListener("click", (e) => this.expandImage());
         this.expandImage(false);
     }
 
-    expandImage(open = true) {
-        const dialog = this.shadowRoot.querySelector("dialog.enlarged-dialog");
+    createDialog(img) {
+        const dialog = document.createElement("dialog");
+        dialog.classList.add("enlarged-dialog");
 
-        if (open) {
-            dialog.showModal();
-            this.loadLargeImage();
+        const exitForm = document.createElement("form");
+        exitForm.setAttribute('method', 'dialog');
+        const button = document.createElement('button');
+        button.setAttribute('type', 'submit');
+        button.textContent = 'X';
+        exitForm.appendChild(button);
+        dialog.appendChild(exitForm);
 
-        } else {
-            dialog.close();
-        }
+        const figure = document.createElement('figure');
+        dialog.appendChild(figure);
+
+        this.loadImage(figure, img);
+
+        return dialog;
     }
-    loadLargeImage() {
-        const dialog = this.shadowRoot.querySelector("dialog.enlarged-dialog");
-        const placeholder = dialog.querySelector("img.placeholder");
-        const largeImage = dialog.querySelector("img.large-image");
 
+    loadImage(container, img) {
+        const placeholder = new Image();
+        placeholder.classList.add("placeholder");
+        placeholder.alt = img.alt;
+        placeholder.src = img.dataset.placeholder ?? img.src;
+
+        const largeImage = new Image();
         largeImage.classList.add("removed");
-        placeholder.src = this.placeholder ?? this.img.src;
-        placeholder.classList.remove("removed");
-
         largeImage.addEventListener("load", () => {
             placeholder.classList.add("removed");
             largeImage.classList.remove("removed");
         });
-        largeImage.src = this.largeImage ?? this.img.src;
+        largeImage.src = img.dataset.expanded ?? img.src;
+
+        container.appendChild(placeholder);
+        container.appendChild(largeImage);
+
     }
+
+    expandImage(open = true) {
+        if (!this.dialog) {
+            const img = this.shadowRoot.querySelector("img.thumbnail");
+            this.dialog = this.createDialog(img);
+            this.shadowRoot.appendChild(this.dialog);
+        }
+
+        if (open) {
+            this.dialog.showModal();
+
+        } else {
+            this.dialog.close();
+        }
+    }
+
+
 }

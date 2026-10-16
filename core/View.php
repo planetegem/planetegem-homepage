@@ -16,11 +16,7 @@ abstract class View
         $childFilename = $reflection->getFilename();
         $absolutePath = realpath($childFilename);
 
-        // Clean path if on webserver
-        $docroot = realpath($_SERVER['DOCUMENT_ROOT']) . '/';
-        $relativePath = str_replace($docroot, '', $absolutePath);
-
-        $this->template = preg_replace('/\.php$/', '.view.php', $relativePath);
+        $this->template = preg_replace('/\.php$/', '.view.php', $absolutePath);
     }
 
     public function Render($data = array())
