@@ -17,18 +17,14 @@
                 <?= $props['medium'] ? $props['medium']->Render() : '' ?>
             </figure>
             <nav class="item-links">
-                <?php
-                foreach ($props['links'] as $link) {
-                    echo $link->Render();
-                }
-                ?>
+                <?php foreach ($props['links'] as $link) : ?>
+                    <?= $link->Render() ?>
+                <?php endforeach; ?>
             </nav>
             <ul class="item-tags">
-                <?php
-                foreach ($props['tags'] as $tag) {
-                    echo $tag->Render();
-                }
-                ?>
+                <?php foreach ($props['tags'] as $tag) : ?>
+                    <?= $tag->Render(); ?>
+                <?php endforeach; ?>
             </ul>
         </main>
 

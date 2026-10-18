@@ -13,7 +13,7 @@ class Update extends View
     public $tags;
     public $links;
 
-    public function __construct($item)
+    public function __construct($item, $type = "lister")
     {
         parent::__construct();
 
@@ -22,8 +22,10 @@ class Update extends View
 
         $this->description = $item->description;
 
-        if (property_exists($item, 'media'))
-            $this->medium = medium_factory($item->media);
+        $media = $item->media ?? [];
+        if (!empty($media)) {
+            $this->medium = medium_factory($media[0]);
+        }
 
         if (property_exists($item, 'links'))
             $this->links = array_map(function ($link) {

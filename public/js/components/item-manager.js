@@ -2,7 +2,7 @@ import { orchestrator } from "./orchestrator.js";
 
 export default class ItemManager {
     constructor() {
-        this.hiddenItems = Array.from(document.querySelectorAll(".item.hidden, .pager.hidden"));
+        this.hiddenItems = Array.from(document.querySelectorAll(".hidden"));
         this.interactionAllowed = false;
 
         // Use IntersectionObserver to check if items are visible
