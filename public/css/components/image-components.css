@@ -96,7 +96,8 @@ nav.gallery-nav {
     max-width: 100%;
     scroll-behavior: smooth;
 
-    & a {
+    & button {
+        all: unset;
         height: 4.5em;
         flex-shrink: 0;
         box-sizing: border-box;
@@ -109,8 +110,8 @@ nav.gallery-nav {
         object-fit: cover;
     }
 
-    & a:hover,
-    & a.selected {
+    & button:hover,
+    & button.selected {
         cursor: pointer;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
         border-radius: 3px;

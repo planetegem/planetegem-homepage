@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="https://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl">
-<?= (new Views\PageHead())->Render() ?>
+<html xmlns="https://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<?= (new Views\PageHead()) ?>
 
 <body>
-    <?= (new Views\Background())->Render() ?>
-    <?= (new Views\Navigation())->Render() ?>
+    <?= (new Views\Background()) ?>
+    <?= (new Views\Navigation()) ?>
     <main class="inventory">
-        <?php
-        array_map(function ($item) {
-            echo $item->Render();
-        }, $props['items']);
-        ?>
-        <?= $props['pager']->Render() ?>
+        <?php foreach ($items as $item): ?>
+            <?= $item ?>
+        <?php endforeach; ?>
+        <?= $pager ?>
     </main>
-    <?= (new Views\Footer())->Render() ?>
+    <?= (new Views\Footer()) ?>
 </body>
 
 </html>

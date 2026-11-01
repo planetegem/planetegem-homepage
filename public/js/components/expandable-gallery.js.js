@@ -46,7 +46,7 @@ export default class ExpandableGallery extends HTMLElement {
             navImage.alt = img.alt;
             navImage.classList.add("thumbnail-preview");
 
-            const navLink = document.createElement("a");
+            const navLink = document.createElement("button");
             navLink.appendChild(navImage);
             navLink.addEventListener("click", () => this.selectImage(navLink, index));
             this.navigation.appendChild(navLink);

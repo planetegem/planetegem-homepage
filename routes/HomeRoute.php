@@ -5,8 +5,7 @@ namespace Routes;
 use Core\Route;
 use Core\App;
 use Views\HomePage;
-use Views\NoResultsPage;
-use Views\Error404Page;
+use Views\ErrorPage;
 
 // Homepage route: list entire inventory, mind the query string for possible filters
 // example path: /?order=ascending
@@ -24,9 +23,9 @@ class HomeRoute extends Route
 
         // select page
         if ($api_response['response_code'] != 200) {
-            $page = new Error404Page();
+            $page = new ErrorPage();
         } else if ($inventory->count == '0' || $inventory->current_page > $inventory->last_page) {
-            $page = new NoResultsPage();
+            $page = new ErrorPage('no_results', 200);
         } else {
             $page = new HomePage($inventory);
         }

@@ -1,12 +1,12 @@
 <?php
 
 namespace Views;
-use Core\View;
+use Core\DocumentView;
 
-class LanguagePage extends View
+class LanguagePage extends DocumentView
 {
-    public $items = [];
-    public $head;
+    public array $items = [];
+    public ?PageHead $head = null;
     
     public function __construct($language)
     {

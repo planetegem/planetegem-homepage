@@ -2,12 +2,12 @@
 
 namespace Views;
 
-use Core\View;
+use Core\DocumentView;
 
-class HomePage extends View
+class HomePage extends DocumentView
 {
-    public $items = [];
-    public $pager;
+    public array $items = [];
+    public ?Pager $pager = null;
     
     public function __construct($inventory)
     {

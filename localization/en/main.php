@@ -9,6 +9,7 @@ return [
     'socials' => [
         'names' => [
             'github' => 'github',
+            'instagram' => 'instagram'
         ],
     ],
     'filters' => [
@@ -35,5 +36,13 @@ return [
         'social_media' => 'social media'
     ],
     'timestamp' => '[added on :timestamp]',
-
+    'inventory' => [
+        'item_update_subheader' => '-- Item updates --',
+        'pager_recap' => 'Showing <strong>:start</strong> to </strong>:end</strong> of <strong>:total</strong> results.'
+    ],
+    'nav' => [
+        'open_menu' => 'Open menu',
+        'close_menu' => 'Close menu',
+        'open_filter' => 'Apply filters'
+    ],
 ];

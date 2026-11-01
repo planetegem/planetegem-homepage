@@ -14,7 +14,16 @@ use Core\App;
 
 // INSTANTIATE ENVIRONMENT
 use Core\Environment;
-App::register('ENV', new Environment('../.env'));
+$env = new Environment('../.env');
+App::register('ENV', $env);
+function __debug() : bool {
+    global $env;
+    return $env->DEBUG_LOCAL;
+}
+function __env() : string {
+    global $env;
+    return $env->APP_ENV;
+}
 
 // INSTANTIATE LOGGER
 use Core\Logger;

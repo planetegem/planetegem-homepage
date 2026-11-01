@@ -1,21 +1,14 @@
 <?php
 
 namespace Views;
-use Core\View;
+use Core\DocumentView;
 
-class ItemPage extends View
+class ItemPage extends DocumentView
 {
-    public $head;
-    public $mainItem;
+    public ?PageHead $head = null;
+    public ?Item $mainItem = null;
 
-    public $title;
-    public $timestamp;
-    public $description;
-    public $medium;
-    public $tags;
-    public $links;
-
-    public $updates = [];
+    public array $updates = [];
 
 
     public function __construct($item)

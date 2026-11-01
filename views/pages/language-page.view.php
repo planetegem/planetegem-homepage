@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="https://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl">
-<?= $props['head']->Render() ?>
+<?= $head ?>
+
 <body>
-    <?= (new Views\Background())->Render() ?>
-    <?= (new Views\Navigation())->Render() ?>
+    <?= (new Views\Background()) ?>
+    <?= (new Views\Navigation()) ?>
+
     <main class="inventory">
-        <?php
-        array_map(function ($item) {
-            echo $item->Render();
-        }, $props['items']);
-        ?>
+        <?php foreach ($items as $item): ?>
+            <?= $item ?>
+        <?php endforeach; ?>
     </main>
-    <?= (new Views\Footer())->Render() ?>
+    
+    <?= (new Views\Footer()) ?>
 </body>
+
 </html>

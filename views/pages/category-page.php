@@ -1,12 +1,12 @@
 <?php
 
 namespace Views;
-use Core\View;
+use Core\DocumentView;
 
-class CategoryPage extends View
+class CategoryPage extends DocumentView
 {
-    public $items = [];
-    public $head;
+    public array $items = [];
+    public ?PageHead $head = null;
     
     public function __construct($category)
     {

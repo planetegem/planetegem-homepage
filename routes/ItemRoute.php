@@ -4,7 +4,7 @@ namespace Routes;
 
 use Core\Route;
 use Core\App;
-use Views\Error404Page;
+use Views\ErrorPage;
 use Views\ItemPage;
 
 // Item page: show one specific item, with all of its updates below
@@ -24,7 +24,7 @@ class ItemRoute extends Route
         $item = $api_response['response_code'] == 200 ? $api_response['response_body']->data : [];
 
         // select page
-        $page = $api_response['response_code'] == 404 ? new Error404Page() : new ItemPage($item);
+        $page = $api_response['response_code'] == 404 ? new ErrorPage() : new ItemPage($item);
         echo $page->Render();
     }
 }

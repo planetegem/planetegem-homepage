@@ -1,12 +1,33 @@
-nav.pager {
+/* The floater floats between items and is usually smaller
+examples include: subheader, divider, pager, error message... */
+.floater {
     border: solid var(--primary-color) var(--item-border-width);
     background-color: white;
+    z-index: 50;
+    padding: 1.5rem 2rem;
+}
+
+/* Subheader used to divide inventory in categories */
+header.inventory-subtitle {
+    margin-top: 1em;
+
+    & h3 {
+        font-size: 1.5rem;
+        -webkit-text-stroke: 1px var(--primary-color);
+        color: black;
+        font-weight: 600;
+        font-variant: small-caps;
+        line-height: 1.2;
+        text-align: center;
+    }
+}
+
+/* Pager block */
+nav.pager {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.25em;
-    z-index: 50;
-    padding: 0.5em;
 
     & a.pager-link:hover {
         cursor: pointer;
@@ -18,6 +39,7 @@ nav.pager {
         cursor: default;
     }
 }
+
 nav.pager::selection {
     color: white;
     background-color: var(--primary-color);

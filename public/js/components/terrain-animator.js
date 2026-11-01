@@ -3,9 +3,9 @@ import { orchestrator } from "./orchestrator.js";
 export default class TerrainAnimator {
 
     constructor(background, planet) {
-        // State handlers
         // Signals when the animation is running (to know if toggle means start or stop)
         this.animationRunning = false;
+
         // Current phase of the animation (what's happening?!)
         this.animationPhase = "loading";
 
@@ -17,9 +17,9 @@ export default class TerrainAnimator {
         this.previousTerrainFrame = 0;
         this.elapsedTime = 0;
         this.easeInOutDuration = 500;
-        this.minLoadTime = newSession ? 500 : 100;
-        this.planetAscendingDuration = newSession ? 4000 : 2500;
-        this.baseVelocity = newSession ? 0.0025 : 0.0025;
+        this.minLoadTime = newSession ? 500 : 0;
+        this.planetAscendingDuration = newSession ? 4000 : 1500;
+        this.baseVelocity = newSession ? 0.0025 : 0.01;
 
         // Establish the background
         this.background = background;
@@ -29,7 +29,7 @@ export default class TerrainAnimator {
         const animationToggle = document.getElementById("animation-toggle");
         animationToggle.addEventListener("click", () => this.toggle());
 
-        orchestrator.subscribe("loading", (data) => { 
+        orchestrator.subscribe("loading", (data) => {
             this.animationPhase = data.newState ? "loading" : "loading-complete";
         });
 
@@ -117,17 +117,14 @@ export default class TerrainAnimator {
             case "loading-complete":
                 this.elapsedTime += delta;
 
-                if (this.elapsedTime <= this.minLoadTime)
-                    return;
-
                 // Planet starts ascending
                 progress = (this.elapsedTime - this.minLoadTime) / this.planetAscendingDuration;
                 velocity *= Math.pow(1 - Math.max((progress - 0.5) * 2, 0), 3);
 
-                let easeOut = 1 - Math.pow(1 - progress, 3);
+                let easeOut = Math.pow(1 - Math.max((progress - 0.5) * 2, 0), 3);
 
                 if (progress <= 1) {
-                    this.backgroundPlanet.style.transform = `translateY(${(1 - easeOut) * 100}vh)`;
+                    this.backgroundPlanet.style.transform = `translateY(${(easeOut) * 100}vh)`;
                 }
                 if (progress > 1) {
                     // End of the animation
