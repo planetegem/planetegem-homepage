@@ -40,18 +40,14 @@ class HomeRoute extends Route
 ```
 
 ## Views
-Views contains all PHP files that generate functional HTML. Here, you create view components that consist of 2 files:
-1) a class file that handles most (or ideally all) logic (for example item.php which contains the class Item). The class needs to extend the View class.
-2) a view file that contains the HTML to be rendered, with the same name as the item class, but ending in view.php (for example item.view.php)
+Views contains all PHP files that generate functional HTML. There are currently 2 types of views:
+1) DocumentView: expects a [class_name].view.php file when you extend the class. This file should contain all html. Class props can just be invoked as normal variables. Rendering a DocumentView includes a http status code (default = 200).
+2) SingleFileView: HTML comes immediately after the class clode in the same files (split by __halt_compiler()). Used for simple components, with multiple per page.
 
-Properties from the class file are accessed in the view file through the associative $props array. You can then render the view file by calling the Render method on an instance of the class.
-
-<ins>How does it work?</ins>
-Everything is powered by the View class that's extended by a component class. The View class constructor provides logic to figure out where the view file is located. It does this by using reflection to obtain the path to the current class file, which is then amended by the .view.php extension. This path is saved as the $template property.
-The View class also provides the Render method that's used by all view components. This method pushes all class properties into the $props array and then output buffering on. It then includes the view file (buffered) and returns the contents of the buffer as a string. 
+Both types of view depend on their Render method, but calling the class as a string is enough to to call the Render method, so you don't need to explicitly call it.
 
 <ins>VS Code recommendation</ins>
-To get a clean file structure in VS, I recommend adding the follwing block to your settings.json:
+To get a clean file structure in VS, you can add the following block to your settings.json (works for the 2-file views like DocumentView):
 ```
 {
     "explorer.fileNesting.enabled": true,
@@ -61,7 +57,7 @@ To get a clean file structure in VS, I recommend adding the follwing block to yo
     }
 }
 ```
-This way, the view.php files will be nested under there corresponding class files, giving a similar presentation as for XAML files when working with the WPF framework in Visual Studio.
+This allows view.php files to be nested under corresponding class files: a similar presentation as XAML files when working with the WPF framework in Visual Studio.
 
-## Helpers
+## Helpers an traits
 Helper functions used in sites using SysInvAdmin.

@@ -43,6 +43,6 @@ return [
     'nav' => [
         'open_menu' => 'Open menu',
         'close_menu' => 'Close menu',
-        'open_filter' => 'Apply filters'
+        'open_filters' => 'Apply filters'
     ],
 ];
