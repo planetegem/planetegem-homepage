@@ -12,7 +12,7 @@ export class Point {
     get z() {
         return this._z;
     }
-   
+
     constructor(x, y, z = 0) {
         this._x = x; this._y = y; this._z = z;
     }
@@ -43,10 +43,10 @@ export class Grid {
 
     // TERRAIN GENERATION PARAMETERS
     // Max variation says how much a point can vary compared to neighbouring points
-    set terrainVariation(value){
+    set terrainVariation(value) {
         this._maxVariation = value / 400;
     }
-    get terrainVariation(){
+    get terrainVariation() {
         return this._maxVariation;
     }
     _maxVariation = 0.2;
@@ -158,7 +158,7 @@ export class Projection extends Grid {
     set vDivergence(value) {
         this._vDivergence = value / 100;
     }
-    get vDivergence(){
+    get vDivergence() {
         return this._vDivergence;
     }
     _vDivergence = 1.5;
@@ -167,7 +167,7 @@ export class Projection extends Grid {
     set horizonCurve(value) {
         this._horizonCurve = value / 100;
     }
-    get horizonCurve(){
+    get horizonCurve() {
         return this._horizonCurve;
     }
     _horizonCurve = 0.25;
@@ -217,7 +217,7 @@ export class Projection extends Grid {
 
                 let currentPoint = this._grid[i][j];
                 finalY += currentPoint.z * correctedBaseY;
-                                
+
                 // RESULT
                 projectedRow.push(new Point(finalX, finalY));
 
@@ -229,18 +229,20 @@ export class Projection extends Grid {
         }
         return this._projection;
     }
-  
+
     // HORIZON
     // Draw a horizon between first and second row (used in animation)
     _horizon = [];
     get horizon() {
         this._horizon = [];
-        for (let i = 0; i < this._projection[0].length; i++) {
-            let previous = this._projection[0][i], next = this._projection[1][i];
+        if (this._projection.length > 0) {
+            for (let i = 0; i < this._projection[0].length; i++) {
+                let previous = this._projection[0][i], next = this._projection[1][i];
 
-            let horizonX = previous.x * (1 - this._offset) + next.x * this._offset,
-                horizonY = previous.y * (1 - this._offset) + next.y * this._offset;
-            this._horizon.push(new Point(horizonX, horizonY));
+                let horizonX = previous.x * (1 - this._offset) + next.x * this._offset,
+                    horizonY = previous.y * (1 - this._offset) + next.y * this._offset;
+                this._horizon.push(new Point(horizonX, horizonY));
+            }
         }
         return this._horizon;
     }
@@ -335,15 +337,15 @@ export class Background extends Projection {
 
             // Create the actual grid
             for (let i = 0; i < projection.length; i++) {
-            
+
                 // Start by creating a polygon to be filled
                 for (let j = 0; j < projection[i].length; j++) {
 
                     if (j === projection[i].length - 1) continue;
 
-                    let topLeftPoint = (i === 0) ? horizon[j] : projection[i][j], 
+                    let topLeftPoint = (i === 0) ? horizon[j] : projection[i][j],
                         topRightPoint = (i === 0) ? horizon[j + 1] : projection[i][j + 1];
-                    
+
                     ctx.beginPath();
                     ctx.moveTo(topLeftPoint.x * this._width, topLeftPoint.y * this._height);
                     ctx.lineTo(topRightPoint.x * this._width, topRightPoint.y * this._height);
