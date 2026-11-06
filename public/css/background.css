@@ -57,11 +57,8 @@ figure#background {
 #animation-toggle:hover {
     cursor: pointer;
 }
-/* placed on the body when interaction isn't allowed */
-.stop-scroll {
-    height: 100%;
-    overflow: hidden;
-}
+
+
 /* used for the fade in/out when toggling animation */
 body > * {
     transition: opacity 0.2s ease-in-out;

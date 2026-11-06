@@ -2,7 +2,7 @@ import { orchestrator } from "./orchestrator.js";
 
 export default class ItemManager {
     constructor() {
-        this.hiddenItems = Array.from(document.querySelectorAll(".hidden"));
+        this.hiddenItems = new Set(document.querySelectorAll(".hidden"));
         this.interactionAllowed = false;
 
         // Use IntersectionObserver to check if items are visible
@@ -41,7 +41,7 @@ export default class ItemManager {
 
         // Stop observing this element once revealed
         this.observer.unobserve(element);
-        this.hiddenItems = this.hiddenItems.filter((item) => item !== element);
+        this.hiddenItems.delete(element);
     }
 
     // Staggered reveal, not reliant on scroll
@@ -50,9 +50,8 @@ export default class ItemManager {
 
         // Find elements currently inside the viewport threshold
         const viewportThreshold = window.innerHeight * 0.975;
-        const itemsToReveal = this.hiddenItems.filter((item) => {
-            const yPos = item.getBoundingClientRect().top;
-            return yPos < viewportThreshold;
+        const itemsToReveal = Array.from(this.hiddenItems).filter((item) => {
+            return item.getBoundingClientRect().top < viewportThreshold;
         });
 
         // Reveal matching elements using match index (not global index)

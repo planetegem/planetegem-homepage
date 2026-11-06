@@ -71,3 +71,17 @@ button {
         display: none !important;
     }
 }
+
+/* state representors */
+body.animation-running * {
+    pointer-events: none;
+}
+body.stop-scroll {
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Keep the toggle button clickable */
+body.animation-running #animation-toggle {
+    pointer-events: auto;
+}

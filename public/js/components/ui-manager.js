@@ -4,6 +4,8 @@ export default class UiManager {
     constructor() {
         // State
         this.interactionAllowed = false;
+        this.lastScrollPosition = window.scrollY;
+        this.ticking = false;
 
         // DOM Elements
         this.menu = document.getElementById("page-nav-menu");
@@ -13,21 +15,19 @@ export default class UiManager {
         this.filterMenuButton = document.getElementById("filter-button");
         this.filterMenu = document.getElementById("filter-menu");
 
-        // Scroll
-        this.lastScrollPosition = window.scrollY;
-        this.ticking = false;
+        this.submenus = [this.mainMenu, this.filterMenu];
 
         // Subscribe to orchestrator
         orchestrator.subscribe("interactable", (data) => {
             this.interactionAllowed = data.newState;
             if (data.newState) {
-                this.menu.classList.remove("closed");
+                this.menu?.classList.remove("closed");
                 document.querySelector(".error.hidden")?.classList.add("visible");
             }
         });
 
         // Event listeners
-        window.addEventListener("scroll", () => this.handleScroll());
+        window.addEventListener("scroll", () => this.onScroll(), { passive: true });
 
         document.getElementById("menu-button")?.addEventListener("click", () =>
             this.toggleSubmenu(this.mainMenu, this.filterMenu)
@@ -37,14 +37,29 @@ export default class UiManager {
         );
         this.overlay?.addEventListener("click", () => this.closeAllMenus());
 
-        const exitButtons = document.querySelectorAll(".menu > .exit-button");
-        for (let exitButton of exitButtons) {
-            exitButton.addEventListener("click", () => this.closeAllMenus());
-        }
+        // Attach listeners to all exit buttons
+        document.querySelectorAll(".menu > .exit-button").forEach(button => {
+            button.addEventListener("click", () => this.closeAllMenus());
+        });
+
+        // ADDITIONAL LOGIC FOR FILTER FORM
+        
+        // Filter menu elements
+        this.filterSummary = document.getElementById("filter-summary");
+        this.filterForm = document.getElementById("filter-form");
+        this.orderSelector = document.getElementById("order-filter");
+
+        // Filter form event delegation
+        this.filterForm?.addEventListener("change", () => this.setFilterSummary());
+        
+        // Order selector change
+        this.orderSelector?.addEventListener("change", () => this.setFilterSummary());
+
+        // Initialize filter summary on load
+        this.setFilterSummary();
     }
 
-    // MENU STATE HANDLERS
-    // Open a submenu (and close the other one)
+    // MENU HANDLERS
     toggleSubmenu(target, sibling) {
         if (!target) return;
 
@@ -57,23 +72,16 @@ export default class UiManager {
 
         this.syncOverlay();
     }
-    // Sync overlay with current menu state (visible if any menu is open)
     syncOverlay() {
-        const isAnyMenuOpen =
-            Boolean(this.mainMenu?.classList.contains("opened")) ||
-            Boolean(this.filterMenu?.classList.contains("opened"));
-
+        const isAnyMenuOpen = this.submenus.some(menu => menu?.classList.contains("opened"));
         this.overlay?.classList.toggle("visible", isAnyMenuOpen);
     }
-    // Shorthand to close everything
     closeAllMenus() {
         this.overlay?.classList.remove("visible");
-        this.filterMenu?.classList.remove("opened");
-        this.mainMenu?.classList.remove("opened");
+        this.submenus.forEach(menu => menu?.classList.remove("opened"));
     }
 
     // SCROLL HANDLER
-    // Route scroll handle through an animation frame
     onScroll() {
         if (!this.ticking) {
             requestAnimationFrame(() => {
@@ -118,5 +126,37 @@ export default class UiManager {
         this.lastScrollPosition = currentScrollPosition;
     }
 
+    // FILTER SUMMARY LOGIC
+    setFilterSummary() {
+        if (!this.filterSummary) return;
 
+        const checkedLanguages = Array.from(this.filterForm?.querySelectorAll("input[type='checkbox'][name='language']:checked") || []);
+        const checkedCategories = Array.from(this.filterForm?.querySelectorAll("input[type='checkbox'][name='category']:checked") || []);
+
+        const langLabels = checkedLanguages.map(el => el.dataset.label).filter(Boolean);
+        const catLabels = checkedCategories.map(el => el.dataset.label).filter(Boolean);
+
+        let parts = ["(will show"];
+
+        if (langLabels.length > 0) {
+            const langFormatter = new Intl.ListFormat('en', { style: 'long', type: 'conjunction' });
+            parts.push(` ${langFormatter.format(langLabels)} items`);
+        } else {
+            parts.push(" all items");
+        }
+
+        if (catLabels.length > 0) {
+            const catFormatter = new Intl.ListFormat('en', { style: 'long', type: 'disjunction' });
+            parts.push(`, that are categorised as ${catFormatter.format(catLabels)},`);
+        }
+
+        const orderValue = this.orderSelector?.value;
+        if (orderValue === "descending" || orderValue === "ascending") {
+            parts.push(` in ${orderValue} order`);
+        }
+
+        parts.push(")");
+
+        this.filterSummary.innerText = parts.join('');
+    }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "version-3",
+  "version": "1.0.0",
+  "description": "This is the newest version of planetegem.be, running SysInvAdmin in the background as rudimentary CMS. I'm laying some groundwork here to make a template for websites running SysInvAdmin, taking a lot of inspiration from Laravel and Blade.\r This will also be the basis for other websites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/planetegem/planetegem-homepage.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/planetegem/planetegem-homepage/issues"
+  },
+  "homepage": "https://github.com/planetegem/planetegem-homepage#readme",
+  "devDependencies": {
+    "vite": "^8.3.5"
+  }
+}

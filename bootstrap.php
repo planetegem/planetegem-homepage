@@ -39,7 +39,7 @@ function __log(string $message){
 
 // INSTANTIATE LOCALIZER
 use Core\Localizor;
-$localizor = new Localizor('../localization', App::service('ENV')->DEFAULT_LOCALE);
+$localizor = new Localizor('../app/localization', App::service('ENV')->DEFAULT_LOCALE);
 
 // Register as service with app
 App::register('LOCALE', $localizor);
@@ -67,9 +67,11 @@ function __api(){
 use Core\Loader;
 
 $loader = new Loader();
-$loader->loadDirectory('../routes');
-$loader->loadDirectory('../views');
-$loader->loadDirectory('../helpers');
+$loader->loadDirectory('../app/routes');
+$loader->loadDirectory('../app/traits');
+$loader->loadDirectory('../app/views');
+$loader->loadDirectory('../app/helpers');
+
 
 // INSTANTIATE ROUTER
 use Core\Router;
