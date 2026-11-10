@@ -4,7 +4,7 @@ export default class Loader {
     constructor() {
         window.addEventListener("load", () => {
             // 1. Select all custom elements on the page
-            const shadowHosts = document.querySelectorAll('expandable-thumbnail, expandable-gallery');
+            const shadowHosts = document.querySelectorAll('expandable-thumbnail, expandable-gallery, expandable-gifv');
 
             // 2. Collect high-priority images from all shadow roots
             const priorityImages = [];

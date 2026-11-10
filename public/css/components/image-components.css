@@ -1,9 +1,9 @@
-img.thumbnail {
+img.thumbnail, video.thumbnail {
     width: 100%;
     cursor: zoom-in;
 }
 
-img.removed {
+img.removed, video.removed {
     display: none !important;
 }
 
@@ -22,7 +22,7 @@ dialog.enlarged-dialog {
         border-radius: 0.5em;
     }
 
-    & img {
+    & img, video {
         max-width: calc(90vw - 7.5em);
         max-height: calc(90vh - 7.5em);
         width: auto;
@@ -71,7 +71,7 @@ figure {
     margin: 0;
 }
 
-figure.gallery {
+figure.gallery, figure.gifv {
     display: grid;
     grid-template-rows: auto auto;
     gap: 1em;

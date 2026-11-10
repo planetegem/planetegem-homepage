@@ -1,5 +1,7 @@
 <?php
 namespace Traits;
+use Views\LoopingVideo;
+use Views\LoopVideo;
 use Views\Thumbnail;
 use Views\Gallery;
 
@@ -26,6 +28,7 @@ trait HasMedia
         return match ($type) {
             'image', 'thumbnail' => new Thumbnail($files),
             'gallery', 'carousel' => new Gallery($files),
+            'gifv' => new LoopingVideo($files),
             default => null,
         };
     }
