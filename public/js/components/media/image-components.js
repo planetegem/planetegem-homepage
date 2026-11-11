@@ -1,54 +1,32 @@
-import styles from "../../css/components/image-components.css?inline";
-
-// Instantiate the stylesheet
-const sheet = new CSSStyleSheet();
-sheet.replaceSync(styles);
+import { MediaComponent } from "./media-component";
 
 // BASE CLASS
 // Simple thumbnail that can be clicked to enlarge
 // Supports loading a (small) thumbnail that's loaded immediately, a large image that's shown in 
 // a dialog and only loads when it's opened a placeholder while loading the large image (defaults to the thumbnail)
-export class ExpandableThumbnail extends HTMLElement {
+export class ExpandableThumbnail extends MediaComponent {
 
     constructor() {
         super();
-
-        // Attach (or identify) shadow root
-        if (!this.shadowRoot) this.attachShadow({ mode: "open" });
-        this.shadowRoot.adoptedStyleSheets = [sheet];
-
-        this.dialog = null;
         this.img = null;
     }
 
     connectedCallback() {
         this.img = this.shadowRoot.querySelector("img.thumbnail");
-        if (this.img) this.img.addEventListener("click", (e) => this.expandImage());
+        this.img?.addEventListener("click", (e) => this.expand(true));
     }
 
     disconnectedCallback() {
-        this.img = this.shadowRoot.querySelector("img.thumbnail");
-        if (this.img) this.img.removeEventListener("click", (e) => this.expandImage());
-        this.expandImage(false);
+        this.img?.removeEventListener("click", (e) => this.expand(true));
+        super.disconnectedCallback();
     }
 
-    createDialog(img) {
-        const dialog = document.createElement("dialog");
-        dialog.classList.add("enlarged-dialog");
-
-        const exitForm = document.createElement("form");
-        exitForm.setAttribute('method', 'dialog');
-
-        const button = document.createElement('button');
-        button.setAttribute('type', 'submit');
-        button.textContent = 'X';
-        exitForm.appendChild(button);
-        dialog.appendChild(exitForm);
-
+    createDialog() {
+        const dialog = super.createDialog();
         const figure = document.createElement('figure');
         dialog.appendChild(figure);
 
-        this.loadImage(figure, img);
+        this.loadImage(figure, this.getActiveImage());
 
         return dialog;
     }
@@ -73,23 +51,6 @@ export class ExpandableThumbnail extends HTMLElement {
 
         container.appendChild(placeholder);
         container.appendChild(largeImage);
-    }
-
-    expandImage(open = true) {
-        const targetImg = this.getActiveImage();
-        if (!targetImg) return;
-
-        if (!this.dialog) {
-            this.dialog = this.createDialog(targetImg);
-            this.shadowRoot.appendChild(this.dialog);
-        }
-
-        if (open) {
-            this.dialog.showModal();
-
-        } else {
-            this.dialog.close();
-        }
     }
 
     getActiveImage() {
@@ -131,8 +92,10 @@ export class ExpandableGallery extends ExpandableThumbnail {
         if (this.navigation) this.navigation.replaceChildren();
 
         // Prepare each thumbnail
+        let firstButton = null;
+
         this.images.forEach((img, index) => {
-            img.addEventListener("click", () => this.expandImage());
+            img.addEventListener("click", () => this.expand(true));
             img.classList.add("removed");
 
             const navImage = new Image();
@@ -147,8 +110,10 @@ export class ExpandableGallery extends ExpandableThumbnail {
             navButton.addEventListener("click", () => this.selectImage(navButton, index));
             this.navigation.appendChild(navButton);
 
-            if (index === 0) this.selectImage(navButton, index);
+            if (index === 0) firstButton = navButton;
         });
+
+        if (firstButton) requestAnimationFrame(() => this.selectImage(firstButton, 0));
 
         // Enable keyboard arrow navigation when component has focus
         this.addEventListener("keydown", (e) => {
@@ -178,8 +143,10 @@ export class ExpandableGallery extends ExpandableThumbnail {
         });
 
         // Ensure selected thumbnail is scrolled into view within the nav
-        element.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
-
+        requestAnimationFrame(() => {
+            element.scrollIntoView({ behavior: "smooth", inline: "nearest", block: "nearest" });
+        });
+        
         // If dialog is currently open, update its image too
         if (this.dialog?.open) {
             const figure = this.dialog.querySelector("figure");

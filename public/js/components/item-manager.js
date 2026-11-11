@@ -46,20 +46,31 @@ export default class ItemManager {
 
     // Staggered reveal, not reliant on scroll
     revealItems(delay = 0) {
-        if (!this.interactionAllowed || this.hiddenItems.length === 0) return;
+        if (!this.interactionAllowed || this.hiddenItems.size === 0) return;
 
         // Find elements currently inside the viewport threshold
         const viewportThreshold = window.innerHeight * 0.975;
-        const itemsToReveal = Array.from(this.hiddenItems).filter((item) => {
-            return item.getBoundingClientRect().top < viewportThreshold;
-        });
 
-        // Reveal matching elements using match index (not global index)
+        // 1. Batch ALL reads first
+        const itemsArray = Array.from(this.hiddenItems);
+        const rects = itemsArray.map(item => ({
+            item,
+            top: item.getBoundingClientRect().top
+        }));
+
+        // 2. Filter using the cached measurements
+        const itemsToReveal = rects
+            .filter(entry => entry.top < viewportThreshold)
+            .map(entry => entry.item);
+
+        // 3. Schedule the reveals (WRITES)
         itemsToReveal.forEach((item, index) => {
             if (delay > 0) {
-                setTimeout(() => this.revealItem(item), index * delay);
+                setTimeout(() => {
+                    requestAnimationFrame(() => this.revealItem(item));
+                }, index * delay);
             } else {
-                this.revealItem(item);
+                requestAnimationFrame(() => this.revealItem(item));
             }
         });
     }

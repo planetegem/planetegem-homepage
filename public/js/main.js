@@ -1,6 +1,6 @@
 import { Background } from "./components/fake-3D-background.js";
-import { ExpandableThumbnail, ExpandableGallery } from "./components/image-components.js";
-import { ExpandableGifv } from "./components/video-components.js";
+import { ExpandableThumbnail, ExpandableGallery } from "./components/media/image-components.js";
+import { ExpandableGifv } from "./components/media/video-components.js";
 import FpsCounter from "./components/fps-counter.js";
 import ItemManager from "./components/item-manager.js";
 import Loader from "./components/loader.js";

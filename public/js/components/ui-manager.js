@@ -94,6 +94,8 @@ export default class UiManager {
 
     handleScroll() {
         const currentScrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const fullHeight = document.documentElement.scrollHeight;
         const delta = currentScrollPosition - this.lastScrollPosition;
 
         // Avoid mobile jankiness
@@ -109,9 +111,6 @@ export default class UiManager {
             this.menu.classList.add("closed");
 
             // Footer is only revealed at the bottom of the page
-            const windowHeight = window.innerHeight;
-            const fullHeight = document.documentElement.scrollHeight;
-
             if (currentScrollPosition + windowHeight >= fullHeight - 10) {
                 this.footer.classList.remove("closed");
             }
