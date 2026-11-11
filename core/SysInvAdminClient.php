@@ -29,7 +29,7 @@ class SysInvAdminClient extends ApiClient
             $params[] = "order={$parsed_query['order'][0]}";
         }
         
-        $per_page = isset($parsed_query['per_page']) ? $parsed_query['per_page'][0] : 20;
+        $per_page = isset($parsed_query['per_page']) ? $parsed_query['per_page'][0] : APP::service('ENV')->DEFAULT_PER_PAGE;
         $params[] = "per_page={$per_page}";
         $current_page = isset($parsed_query['page']) ? $parsed_query['page'][0] : 1;
         $params[] = "page={$current_page}";

@@ -69,7 +69,7 @@ __halt_compiler();
 
     <link rel="stylesheet" href="/dist/main.css">
     <link rel="preload" href="/resources/fonts/Orbitron.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <script src="/dist/main.js" type="module"></script>
 </head>

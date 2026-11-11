@@ -22,8 +22,8 @@ class Thumbnail extends SingleFileView
             return;
 
         // Normalize file data
-        $this->src = $image->path;
-        $this->alt = $image->alt;
+        $this->src = $image->path ?? '';
+        $this->alt = $image->alt ?? '';
         $this->thumbnail = $image->variants->medium ?? $this->src;
         $this->placeholder = $image->variants->placeholder ?? $this->src;
     }

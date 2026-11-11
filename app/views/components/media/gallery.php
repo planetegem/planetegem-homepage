@@ -11,8 +11,8 @@ class Gallery extends SingleFileView
     {
         // Normalize the files to be viewed
         $this->images = array_map(fn($image) => [
-            'src' => $image->path,
-            'alt' => $image->alt,
+            'src' => $image->path ?? '',
+            'alt' => $image->alt ?? '',
             'thumbnail' => $image->variants->medium ?? $image->path,
             'placeholder' => $image->variants->placeholder ?? $image->path,
         ], $files);

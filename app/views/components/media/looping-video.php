@@ -20,8 +20,8 @@ class LoopingVideo extends SingleFileView
             return;
 
         // Normalize file data
-        $this->video = $video->path;
-        $this->poster = $video->poster;
+        $this->video = $video->path ?? '';
+        $this->poster = $video->poster ?? '';
     }
 }
 
